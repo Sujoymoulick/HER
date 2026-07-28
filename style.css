@@ -1,0 +1,1515 @@
+/* ==========================================================================
+   ROMANTIC APOLOGY & BIRTHDAY SURPRISE WEBSITE - STYLESHEET
+   ========================================================================== */
+
+/* 1. Global Reset & Variables */
+:root {
+    --color-bg-1: #ffeef2;
+    --color-bg-2: #f3e5f5;
+    --color-bg-3: #fff9db;
+    --color-pink-primary: #ff758c;
+    --color-pink-light: #ffb1b8;
+    --color-lavender: #b39ddb;
+    --color-gold: #ffb300;
+    --color-gold-light: #ffe082;
+    --color-white-glass: rgba(255, 255, 255, 0.45);
+    --color-white-glass-border: rgba(255, 255, 255, 0.4);
+    --color-text-dark: #374151;
+    --color-text-muted: #6b7280;
+    
+    /* Fonts */
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Outfit', -apple-system, sans-serif;
+    --font-bengali: 'Hind Siliguri', 'Baloo Da 2', sans-serif;
+
+    /* Shadows & Transitions */
+    --shadow-premium: 0 8px 32px 0 rgba(255, 117, 140, 0.15);
+    --shadow-glow: 0 0 20px rgba(255, 117, 140, 0.4);
+    --shadow-gold-glow: 0 0 25px rgba(255, 179, 0, 0.5);
+    --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast: all 0.2s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-2), var(--color-bg-3));
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    position: relative;
+    line-height: 1.6;
+}
+
+/* Background Animated Gradient */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 238, 242, 0.5);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-pink-light);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-pink-primary);
+}
+
+/* Text Selection */
+::selection {
+    background: var(--color-pink-light);
+    color: white;
+}
+
+/* Ambient Canvas */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Custom Typography Helpers */
+.bengali-text {
+    font-family: var(--font-bengali);
+    font-weight: 500;
+}
+
+.text-wrap-balance {
+    text-wrap: balance;
+}
+
+/* ==========================================================================
+   2. Components & Layouts
+   ========================================================================== */
+
+/* Glassmorphism Card base */
+.glass {
+    background: var(--color-white-glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--color-white-glass-border);
+    box-shadow: var(--shadow-premium);
+    border-radius: 24px;
+}
+
+/* Music Control Button */
+.music-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: 1px solid var(--color-white-glass-border);
+    background: var(--color-white-glass);
+    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.2);
+    color: var(--color-pink-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+}
+
+.music-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-glow);
+}
+
+.music-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.music-tooltip {
+    position: absolute;
+    right: 60px;
+    background: var(--color-pink-primary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.music-toggle-btn:hover .music-tooltip {
+    opacity: 1;
+    transform: translateX(-5px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   3. Loading Animation
+   ========================================================================== */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffeef2;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.loader-heart {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform: rotate(45deg);
+    transform-origin: 40px 40px;
+}
+
+.loader-heart div {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: var(--color-pink-primary);
+}
+
+.loader-heart div:before,
+.loader-heart div:after {
+    content: " ";
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-pink-primary);
+}
+
+.loader-heart div:before {
+    left: -24px;
+}
+
+.loader-heart div:after {
+    top: -24px;
+}
+
+.loader-heart {
+    animation: loaderHeartBeat 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes loaderHeartBeat {
+    0% { transform: scale(0.95) rotate(45deg); }
+    5% { transform: scale(1.1) rotate(45deg); }
+    39% { transform: scale(0.85) rotate(45deg); }
+    45% { transform: scale(1) rotate(45deg); }
+    60% { transform: scale(0.95) rotate(45deg); }
+    100% { transform: scale(0.9) rotate(45deg); }
+}
+
+.loader-text {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--color-pink-primary);
+    font-family: var(--font-serif);
+    letter-spacing: 2px;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+/* ==========================================================================
+   4. Lock Screen
+   ========================================================================== */
+.lock-screen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    background: linear-gradient(135deg, #ffeef2, #f3e5f5);
+    padding: 20px;
+}
+
+.lock-card {
+    max-width: 480px;
+    width: 100%;
+    padding: 40px 30px;
+    text-align: center;
+    border-radius: 32px;
+    box-shadow: 0 15px 45px rgba(255, 117, 140, 0.2);
+}
+
+.lock-heart-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+}
+
+.lock-heart-svg {
+    width: 100%;
+    height: 100%;
+    color: var(--color-pink-primary);
+    filter: drop-shadow(0 4px 10px rgba(255, 117, 140, 0.3));
+    animation: floatingHeart 3s ease-in-out infinite;
+}
+
+@keyframes floatingHeart {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.05); }
+}
+
+.lock-heart-glowing {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, var(--color-pink-light), transparent 70%);
+    opacity: 0.6;
+    animation: heartGlow 2s infinite alternate;
+}
+
+@keyframes heartGlow {
+    from { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+    to { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+.lock-title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #4a148c;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.unlock-btn, .forgive-btn {
+    position: relative;
+    padding: 15px 40px;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(45deg, var(--color-pink-primary), #ff4f70);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.unlock-btn span, .forgive-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-20deg);
+    transition: 0.75s;
+    z-index: 1;
+}
+
+.unlock-btn:hover, .forgive-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow);
+}
+
+.unlock-btn:hover .btn-glow, .forgive-btn:hover .btn-glow {
+    left: 120%;
+}
+
+.unlock-btn:active, .forgive-btn:active {
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   5. Main Scroll Layout & Sections
+   ========================================================================== */
+.main-layout {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.scroll-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 80px 0;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 45px;
+    border-radius: 32px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+    background: linear-gradient(45deg, #b83280, var(--color-pink-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* ==========================================================================
+   6. Section 1: Apology
+   ========================================================================== */
+.apology-section {
+    min-height: 100vh;
+}
+
+.heart-animation-wrapper {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.apology-heart-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 5px 15px rgba(255, 117, 140, 0.2));
+}
+
+.heart-half {
+    transition: transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), fill 1.5s ease;
+    transform-origin: 50px 50px;
+}
+
+.heart-half.sad {
+    filter: grayscale(0.5) opacity(0.85);
+}
+
+#heart-left.sad {
+    transform: translateX(-15px) rotate(-10deg);
+}
+
+#heart-right.sad {
+    transform: translateX(15px) rotate(10deg);
+}
+
+#heart-left.healed {
+    transform: translateX(0) rotate(0deg);
+    fill: url(#heart-grad-happy);
+    filter: drop-shadow(0 0 10px rgba(255,117,140,0.6));
+}
+
+#heart-right.healed {
+    transform: translateX(0) rotate(0deg);
+    fill: url(#heart-grad-happy);
+    filter: drop-shadow(0 0 10px rgba(255,117,140,0.6));
+}
+
+.apology-message-container {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 30px;
+    min-height: 220px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.typewriter-text {
+    font-size: 1.25rem;
+    line-height: 2;
+    color: #4a148c;
+    text-align: center;
+    white-space: pre-line;
+}
+
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.indicator-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-pink-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.indicator-arrow {
+    width: 20px;
+    height: 20px;
+    border-bottom: 2px solid var(--color-pink-primary);
+    border-right: 2px solid var(--color-pink-primary);
+    transform: rotate(45deg);
+    animation: arrowBounce 1.5s infinite;
+}
+
+@keyframes arrowBounce {
+    0%, 100% { transform: translateY(0) rotate(45deg); opacity: 0.4; }
+    50% { transform: translateY(8px) rotate(45deg); opacity: 1; }
+}
+
+/* ==========================================================================
+   7. Section 2: Why You Mean Everything
+   ========================================================================== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    width: 100%;
+}
+
+.reason-card {
+    padding: 35px 25px;
+    border-radius: 20px;
+    text-align: center;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reason-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(255, 117, 140, 0.5);
+    box-shadow: 0 12px 40px 0 rgba(255, 117, 140, 0.25);
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+    transition: var(--transition-fast);
+}
+
+.reason-card:hover .card-icon {
+    transform: scale(1.2);
+}
+
+.reason-card .bengali-text {
+    font-size: 1.1rem;
+    color: #4a148c;
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   8. Section 3: Happy Birthday & Interactive Cake
+   ========================================================================== */
+.birthday-section {
+    overflow: hidden;
+}
+
+.relative-container {
+    position: relative;
+}
+
+.balloon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.cake-wrapper {
+    width: 220px;
+    height: auto;
+    margin: 0 auto 35px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.cake-svg {
+    width: 200px;
+    height: 200px;
+    overflow: visible;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
+}
+
+.cake-hint {
+    font-size: 0.9rem;
+    color: var(--color-pink-primary);
+    font-weight: 500;
+    margin-top: 10px;
+    animation: pulse 1.2s infinite alternate;
+}
+
+.candle {
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.candle:hover {
+    filter: brightness(1.1);
+}
+
+.flame, .flame-inner {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: bottom center;
+}
+
+.flame {
+    animation: flicker 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes flicker {
+    0% { transform: scale(1) rotate(-1deg); }
+    100% { transform: scale(1.05) rotate(2deg); }
+}
+
+.birthday-wishes {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    text-align: center;
+    color: #4a148c;
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   9. Section 4: Interactive Heart
+   ========================================================================== */
+.heart-trigger-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glowing-heart-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    cursor: pointer;
+    box-shadow: var(--shadow-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.interactive-heart-svg {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+    transition: var(--transition-smooth);
+}
+
+.glowing-heart-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px rgba(255, 117, 140, 0.7);
+}
+
+.glowing-heart-btn:hover .interactive-heart-svg {
+    transform: scale(1.15);
+}
+
+.glowing-heart-btn:active {
+    transform: scale(0.95);
+}
+
+.heart-pulse-layer, .heart-pulse-layer-2 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 117, 140, 0.35);
+    z-index: 2;
+    animation: heartPulseRipple 2s infinite cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.heart-pulse-layer-2 {
+    animation-delay: 0.8s;
+}
+
+@keyframes heartPulseRipple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+.interactive-text-container {
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.love-fade-text {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #4a148c;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    text-shadow: 0 2px 10px rgba(255,117,140,0.15);
+}
+
+/* ==========================================================================
+   10. Section 5: Memory Timeline
+   ========================================================================== */
+.timeline-section {
+    padding: 100px 0;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 40px auto 0;
+    padding: 20px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--color-pink-light), var(--color-lavender), var(--color-gold));
+    transform: translateX(-50%);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 20px 40px;
+    z-index: 2;
+}
+
+.timeline-item.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-item.right {
+    left: 50%;
+    text-align: left;
+}
+
+.timeline-dot {
+    position: absolute;
+    top: 35px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 4px solid var(--color-pink-primary);
+    box-shadow: 0 0 10px rgba(255, 117, 140, 0.4);
+    z-index: 3;
+}
+
+.timeline-item.left .timeline-dot {
+    right: -12px;
+}
+
+.timeline-item.right .timeline-dot {
+    left: -12px;
+}
+
+.timeline-content {
+    padding: 25px;
+    border-radius: 20px;
+    transition: var(--transition-smooth);
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 117, 140, 0.4);
+    box-shadow: 0 10px 30px rgba(255, 117, 140, 0.2);
+}
+
+.timeline-img-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.timeline-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.timeline-content:hover .timeline-img {
+    transform: scale(1.06);
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-pink-primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.timeline-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #4a148c;
+}
+
+.timeline-content p {
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+}
+
+/* ==========================================================================
+   11. Section 6: Love Counter
+   ========================================================================== */
+.counter-section {
+    min-height: 100vh;
+}
+
+.counter-dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin: 40px 0;
+}
+
+.counter-box {
+    padding: 30px 15px;
+    border-radius: 20px;
+    border-color: var(--color-white-glass-border);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.counter-box:hover {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 20px rgba(255, 179, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.counter-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #4a148c;
+    line-height: 1.1;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+.counter-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-pink-primary);
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+.counter-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   12. Section 7: Final Surprise
+   ========================================================================== */
+.surprise-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* Fullscreen black overlay that fades in dynamically */
+.night-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #05020c;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+}
+
+.surprise-content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+}
+
+/* Glowing Moon */
+.glowing-moon {
+    position: absolute;
+    top: -120px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #fff9db;
+    box-shadow: var(--shadow-gold-glow), 0 0 60px 20px rgba(255, 249, 219, 0.2);
+    z-index: 1;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.glowing-moon.visible {
+    opacity: 1;
+    transform: scale(1) translate(-20px, 20px);
+}
+
+/* Stage 1: Typing text */
+.surprise-text-block {
+    position: relative;
+    z-index: 3;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.surprise-text-eng {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+    min-height: 2.5rem;
+    text-align: center;
+}
+
+.surprise-text-bng {
+    font-size: 1.8rem;
+    color: var(--color-gold-light);
+    text-shadow: 0 0 10px rgba(255, 224, 130, 0.4);
+    min-height: 3rem;
+    text-align: center;
+}
+
+/* Stage 2: Surprise final layout */
+.surprise-final-block {
+    position: relative;
+    z-index: 3;
+    padding: 40px;
+    border-radius: 32px;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.surprise-final-block.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.surprise-final-heart {
+    font-size: 5rem;
+    color: var(--color-pink-primary);
+    filter: drop-shadow(0 0 20px rgba(255,117,140,0.6));
+    margin-bottom: 25px;
+    animation: heartbeatPulse 1.2s infinite;
+}
+
+@keyframes heartbeatPulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.surprise-final-heading {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+.surprise-final-subheading {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--color-pink-light);
+    margin-bottom: 40px;
+    text-shadow: 0 0 8px rgba(255,177,184,0.3);
+}
+
+.forgive-btn {
+    background: linear-gradient(45deg, var(--color-gold), #ff8f00);
+    box-shadow: 0 4px 15px rgba(255, 179, 0, 0.4);
+    border-color: var(--color-gold);
+}
+
+.forgive-btn:hover {
+    box-shadow: var(--shadow-gold-glow);
+}
+
+/* Thank You Modal Box */
+.thank-you-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 500px;
+    padding: 40px;
+    z-index: 1000;
+    border-radius: 32px;
+    text-align: center;
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(18, 10, 30, 0.85); /* Slightly darker glass for night overlay readability */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.thank-you-modal.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-heart {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    animation: floatingHeart 2.5s ease-in-out infinite;
+}
+
+.thank-you-modal h2 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(255,255,255,0.2);
+}
+
+.thank-you-modal p {
+    font-size: 1.05rem;
+    color: #e0d0f0;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.modal-signature {
+    font-style: italic;
+    color: var(--color-gold-light) !important;
+    font-weight: 500;
+    margin-bottom: 30px !important;
+}
+
+.modal-close-btn {
+    padding: 10px 30px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+    background: white;
+    color: #120a1e;
+    border-color: white;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* ==========================================================================
+   12.5. Memory Gallery & Lightbox
+   ========================================================================== */
+.gallery-section {
+    padding: 80px 0;
+}
+
+.section-subheading {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    margin-top: -30px;
+    margin-bottom: 45px;
+    letter-spacing: 0.5px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.gallery-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--color-white-glass);
+    border: 1px solid var(--color-white-glass-border);
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    aspect-ratio: 4 / 3;
+}
+
+.gallery-card:last-child:nth-child(odd) {
+    grid-column: span 2;
+    margin: 0 auto;
+    max-width: calc(50% - 15px);
+    width: 100%;
+}
+
+.gallery-img-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px;
+    background: linear-gradient(to top, rgba(15, 10, 25, 0.95) 20%, rgba(15, 10, 25, 0.6) 70%, rgba(15, 10, 25, 0));
+    color: white;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.gallery-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(255, 117, 140, 0.3);
+    border-color: rgba(255, 117, 140, 0.5);
+}
+
+.gallery-card:hover .gallery-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.gallery-card:hover .gallery-img {
+    transform: scale(1.08) rotate(1deg);
+    filter: brightness(0.85);
+}
+
+.gallery-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--color-pink-light);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.gallery-card-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e0d0f0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.gallery-footer-quote {
+    margin-top: 60px;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-premium);
+    position: relative;
+    overflow: hidden;
+}
+
+.glowing-quote-text {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #4a148c;
+    text-shadow: 0 0 15px rgba(255, 117, 140, 0.15);
+    line-height: 1.6;
+    margin-bottom: 25px;
+    min-height: 2.2rem;
+}
+
+.gallery-love-subtext-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.final-heart-icon {
+    font-size: 2.5rem;
+    color: var(--color-pink-primary);
+    filter: drop-shadow(0 0 10px rgba(255, 117, 140, 0.4));
+    margin-bottom: 12px;
+    display: inline-block;
+    animation: heartbeatPulse 1.2s infinite;
+}
+
+.gallery-love-subtext {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-pink-primary);
+    line-height: 1.8;
+    min-height: 2.2rem;
+}
+
+/* Lightbox Modal */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 5, 20, 0.95);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lightbox.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    max-width: 85%;
+    max-height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.lightbox.visible .lightbox-content {
+    transform: scale(1);
+}
+
+#lightbox-img, #lightbox-video {
+    max-width: 100%;
+    max-height: 65vh;
+    border-radius: 20px;
+    object-fit: contain;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.lightbox-text {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    color: white;
+    margin-top: 25px;
+}
+
+#lightbox-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--color-pink-light);
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+#lightbox-caption {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #e0d0f0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    white-space: pre-line;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 3.5rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    opacity: 0.7;
+    z-index: 2100;
+    line-height: 1;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: var(--color-pink-primary);
+}
+
+
+/* ==========================================================================
+   13. Responsive Adaptations (Mobile First)
+   ========================================================================== */
+
+/* Up to Tablet (Medium width) */
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 30px 20px;
+    }
+    
+    .section-title {
+        font-size: 2.1rem;
+        margin-bottom: 30px;
+    }
+
+    .typewriter-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+
+    .heart-animation-wrapper {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 25px;
+    }
+
+    /* Timeline converts to a single-column layout */
+    .timeline-line {
+        left: 20px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 0;
+        text-align: left !important;
+    }
+
+    .timeline-item.right {
+        left: 0;
+    }
+
+    .timeline-dot {
+        left: 8px !important;
+        right: auto !important;
+    }
+
+    /* Counter Dashboard grid size on mobile */
+    .counter-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .counter-number {
+        font-size: 2.3rem;
+    }
+
+    .counter-box {
+        padding: 20px 10px;
+    }
+
+    /* Moon placement on mobile */
+    .glowing-moon {
+        width: 80px;
+        height: 80px;
+        top: -90px;
+        right: 0px;
+    }
+
+    .surprise-text-eng {
+        font-size: 1.3rem;
+    }
+
+    .surprise-text-bng {
+        font-size: 1.4rem;
+    }
+
+    .surprise-final-heading {
+        font-size: 2.2rem;
+    }
+
+    /* Gallery adjustments */
+    .section-subheading {
+        font-size: 0.95rem;
+        margin-top: -20px;
+        margin-bottom: 30px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .gallery-card:nth-child(5) {
+        grid-column: span 1;
+        max-width: 100%;
+    }
+
+    .gallery-card {
+        aspect-ratio: 4 / 3;
+    }
+
+    .glowing-quote-text {
+        font-size: 1.2rem;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .gallery-love-subtext {
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+    #lightbox-img {
+        max-height: 50vh;
+    }
+
+    #lightbox-title {
+        font-size: 1.3rem;
+    }
+
+    #lightbox-caption {
+        font-size: 0.95rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .lock-card {
+        padding: 30px 15px;
+    }
+    
+    .lock-title {
+        font-size: 1.4rem;
+    }
+
+    .unlock-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    .reason-card {
+        padding: 25px 15px;
+    }
+
+    .birthday-wishes {
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+    
+    .counter-dashboard {
+        gap: 10px;
+    }
+
+    .counter-number {
+        font-size: 1.9rem;
+    }
+
+    .timeline-content {
+        padding: 15px;
+    }
+
+    .timeline-img-wrapper {
+        height: 140px;
+    }
+}

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শুভ জন্মদিন আমার ভালোবাসা ❤️ | I'm Sorry</title>
+    
+    <!-- SEO and Social Sharing Metadata -->
+    <meta name="description" content="A special birthday surprise and sincere apology for someone very special. I'm sorry, and Happy Birthday, my love.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Happy Birthday My Love & I'm Sorry ❤️">
+    <meta property="og:description" content="A romantic and dreamy surprise created just for you. Open my heart.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon (Data URI SVG for a cute heart icon) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;700;800&family=Hind+Siliguri:wght@300;400;600;700&family=Outfit:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Ambient Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Music Player Controller -->
+    <button id="music-btn" aria-label="Toggle Background Music" class="music-toggle-btn hidden">
+        <svg class="music-icon play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <svg class="music-icon pause-icon hidden" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+        <span class="music-tooltip">Play Music 🎵</span>
+    </button>
+
+    <!-- Preloader / Loading Animation -->
+    <div id="loader" class="loader-container">
+        <div class="loader-heart">
+            <div></div>
+        </div>
+        <p class="loader-text">Loading Love...</p>
+    </div>
+
+    <!-- Opening / Lock Screen -->
+    <div id="lock-screen" class="lock-screen-container">
+        <div class="lock-card glass">
+            <div class="lock-heart-wrapper">
+                <div class="lock-heart-glowing"></div>
+                <svg class="lock-heart-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+            <h1 class="lock-title">Someone very special deserves this ❤️</h1>
+            <button id="unlock-btn" class="unlock-btn">
+                <span>Open My Heart</span>
+                <div class="btn-glow"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Container (Hidden until unlocked) -->
+    <main id="main-content" class="main-layout hidden">
+        
+        <!-- Section 1: Apology -->
+        <section id="section-apology" class="scroll-section apology-section">
+            <div class="content-wrapper glass">
+                <h2 class="section-title apology-title animate-title">I'm Really Sorry ❤️</h2>
+                
+                <!-- Broken Heart SVG to be animated to Whole Heart -->
+                <div class="heart-animation-wrapper">
+                    <svg id="apology-heart" class="apology-heart-svg" viewBox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="heart-grad-sad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#9fa8da" />
+                                <stop offset="100%" stop-color="#7986cb" />
+                            </linearGradient>
+                            <linearGradient id="heart-grad-happy" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffb1b8" />
+                                <stop offset="50%" stop-color="#ff758c" />
+                                <stop offset="100%" stop-color="#ff7eb3" />
+                            </linearGradient>
+                            <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        
+                        <!-- Left half of broken heart -->
+                        <path id="heart-left" class="heart-half sad" d="M 50,25 C 40,10 15,10 15,35 C 15,60 40,75 50,85 C 50,85 50,85 50,85 L 50,55 L 45,47 L 53,40 L 45,33 L 50,25 Z" fill="url(#heart-grad-sad)" />
+                        
+                        <!-- Right half of broken heart -->
+                        <path id="heart-right" class="heart-half sad" d="M 50,25 L 50,55 L 45,47 L 53,40 L 45,33 L 50,25 C 60,10 85,10 85,35 C 85,60 60,75 50,85 C 50,85 50,85 50,85 Z" fill="url(#heart-grad-sad)" />
+                    </svg>
+                </div>
+
+                <div class="apology-message-container">
+                    <div id="typewriter-apology" class="bengali-text typewriter-text"></div>
+                </div>
+            </div>
+            
+            <div class="scroll-down-indicator">
+                <span class="indicator-text">Scroll down to see more</span>
+                <div class="indicator-arrow"></div>
+            </div>
+        </section>
+
+        <!-- Section 2: Why You Mean Everything -->
+        <section id="section-why-you" class="scroll-section representation-section">
+            <div class="content-wrapper">
+                <h2 class="section-title text-wrap-balance">Why You Mean Everything To Me</h2>
+                
+                <div class="cards-grid">
+                    <!-- Card 1 -->
+                    <div class="reason-card glass scroll-fade-up">
+                        <div class="card-icon">❤️</div>
+                        <p class="bengali-text">তোমার হাসি আমার পৃথিবীর সবচেয়ে সুন্দর জিনিস।</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="reason-card glass scroll-fade-up">
+                        <div class="card-icon">🌸</div>
+                        <p class="bengali-text">তোমার সঙ্গে কাটানো প্রতিটি মুহূর্ত আমার কাছে অমূল্য।</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="reason-card glass scroll-fade-up">
+                        <div class="card-icon">✨</div>
+                        <p class="bengali-text">তুমি আমার জীবনের সবচেয়ে বড় আশীর্বাদ।</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="reason-card glass scroll-fade-up">
+                        <div class="card-icon">💖</div>
+                        <p class="bengali-text">তুমি আমার নিরাপদ জায়গা।</p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="reason-card glass scroll-fade-up">
+                        <div class="card-icon">♾️</div>
+                        <p class="bengali-text">আমি প্রতিদিন তোমাকে আরও বেশি ভালোবাসি।</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Happy Birthday -->
+        <section id="section-birthday" class="scroll-section birthday-section">
+            <div class="content-wrapper glass relative-container">
+                
+                <!-- Balloons Canvas or Overlay will display here -->
+                <div class="balloon-container" id="balloon-container"></div>
+                
+                <h2 class="section-title bday-title scroll-fade-up">Happy Birthday My Love 🎂</h2>
+                
+                <!-- Interactive Cake -->
+                <div class="cake-wrapper scroll-fade-up">
+                    <svg id="birthday-cake" class="cake-svg" viewBox="0 0 200 200">
+                        <!-- Cake Base Plate -->
+                        <path d="M20 170 C 20 155, 180 155, 180 170 C 180 180, 20 180, 20 170 Z" fill="#e0e0e0" />
+                        <path d="M30 168 C 30 160, 170 160, 170 168 C 170 174, 30 174, 30 168 Z" fill="#b0bec5" />
+                        
+                        <!-- Cake Bottom Tier -->
+                        <rect x="40" y="110" width="120" height="50" rx="8" fill="#f8bbd0" />
+                        <!-- Cream details -->
+                        <path d="M40 120 Q 50 130, 60 120 T 80 120 T 100 120 T 120 120 T 140 120 T 160 120 L 160 110 L 40 110 Z" fill="#ff80ab" />
+                        
+                        <!-- Cake Top Tier -->
+                        <rect x="55" y="70" width="90" height="40" rx="6" fill="#e1bee7" />
+                        <path d="M55 78 Q 62.5 85, 70 78 T 85 78 T 100 78 T 115 78 T 130 78 T 145 78 L 145 70 L 55 70 Z" fill="#ba68c8" />
+                        
+                        <!-- Decorative sprinkles -->
+                        <circle cx="65" cy="140" r="3" fill="#ffd54f" />
+                        <circle cx="95" cy="130" r="3" fill="#4fc3f7" />
+                        <circle cx="125" cy="145" r="3" fill="#81c784" />
+                        <circle cx="145" cy="135" r="3" fill="#ff8a65" />
+                        <circle cx="75" cy="95" r="2.5" fill="#ffd54f" />
+                        <circle cx="105" cy="85" r="2.5" fill="#ff8a65" />
+                        <circle cx="125" cy="90" r="2.5" fill="#4fc3f7" />
+                        
+                        <!-- Candles Group -->
+                        <!-- Candle 1 -->
+                        <g class="candle" id="candle-1" data-blown="false">
+                            <rect x="75" y="45" width="6" height="25" fill="#ffb74d" rx="2" />
+                            <path class="flame" d="M78 33 C75 38, 75 43, 78 45 C81 43, 81 38, 78 33 Z" fill="#ff9100" />
+                            <path class="flame-inner" d="M78 37 C76.5 40, 76.5 42, 78 43 C79.5 42, 79.5 40, 78 37 Z" fill="#ffea00" />
+                        </g>
+                        <!-- Candle 2 -->
+                        <g class="candle" id="candle-2" data-blown="false">
+                            <rect x="97" y="40" width="6" height="30" fill="#4dd0e1" rx="2" />
+                            <path class="flame" d="M100 28 C97 33, 97 38, 100 40 C103 38, 103 33, 100 28 Z" fill="#ff9100" />
+                            <path class="flame-inner" d="M100 32 C98.5 35, 98.5 37, 100 38 C101.5 37, 101.5 35, 100 32 Z" fill="#ffea00" />
+                        </g>
+                        <!-- Candle 3 -->
+                        <g class="candle" id="candle-3" data-blown="false">
+                            <rect x="119" y="45" width="6" height="25" fill="#aed581" rx="2" />
+                            <path class="flame" d="M122 33 C119 38, 119 43, 122 45 C125 43, 125 38, 122 33 Z" fill="#ff9100" />
+                            <path class="flame-inner" d="M122 37 C120.5 40, 120.5 42, 122 43 C123.5 42, 123.5 40, 122 37 Z" fill="#ffea00" />
+                        </g>
+                    </svg>
+                    <p class="cake-hint">Click the candles to blow them out! 🕯️</p>
+                </div>
+
+                <div class="birthday-message-wrapper scroll-fade-up">
+                    <p class="bengali-text birthday-wishes">
+                        শুভ জন্মদিন আমার ভালোবাসা।<br><br>
+                        আমি চাই তোমার জীবনে সবসময় সুখ, শান্তি, ভালোবাসা, সুস্বাস্থ্য আর সাফল্য থাকুক।<br><br>
+                        তোমার প্রতিটি স্বপ্ন যেন সত্যি হয়।<br><br>
+                        তোমার মুখের হাসিটা যেন সারাজীবন অটুট থাকে।<br><br>
+                        আমি সবসময় তোমার পাশে থাকতে চাই।<br><br>
+                        শুভ জন্মদিন আমার পৃথিবী। ❤️
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Heart -->
+        <section id="section-interactive-heart" class="scroll-section interactive-heart-section">
+            <div class="content-wrapper glass text-center">
+                <h2 class="section-title scroll-fade-up">Tap My Heart</h2>
+                
+                <div class="heart-trigger-container scroll-fade-up">
+                    <div class="heart-pulse-layer"></div>
+                    <div class="heart-pulse-layer-2"></div>
+                    <button id="interactive-heart-btn" aria-label="Express Love" class="glowing-heart-btn">
+                        <svg class="interactive-heart-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="interactive-text-container">
+                    <p id="interactive-love-text" class="love-fade-text"></p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 5.5: Memory Gallery -->
+        <section id="section-gallery" class="scroll-section gallery-section">
+            <div class="content-wrapper glass">
+                <h2 class="section-title scroll-fade-up">Our Beautiful Memories ❤️</h2>
+                <p class="section-subheading bengali-text text-center scroll-fade-up">প্রতিটি ছবির সঙ্গে জড়িয়ে আছে আমাদের হাজারো সুন্দর স্মৃতি।</p>
+                
+                <div class="gallery-grid">
+                    <!-- Card 1 -->
+                    <div class="gallery-card scroll-fade-up" data-image="assets/day i propose her.jpeg" data-title="🌹 The Day I Found My Courage" data-caption="সেদিন শুধু একটা প্রোপোজ ছিল না, সেদিন আমার হৃদয়টা তোমার হাতে তুলে দিয়েছিলাম। আজও সেই মুহূর্তটা আমার জীবনের সবচেয়ে সুন্দর স্মৃতি। ❤️">
+                        <div class="gallery-img-container">
+                            <img src="assets/day i propose her.jpeg" alt="The Day I Found My Courage" class="gallery-img" loading="lazy">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">🌹 The Day I Found My Courage</h3>
+                            <p class="bengali-text gallery-card-desc">সেদিন শুধু একটা প্রোপোজ ছিল না, সেদিন আমার হৃদয়টা তোমার হাতে তুলে দিয়েছিলাম...</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="gallery-card scroll-fade-up" data-image="assets/giving first flower to her.jpeg" data-title="🌸 Our First Flower" data-caption="প্রথম ফুলটা তোমাকে দেওয়ার সময় আমার হাত কাঁপছিল, কিন্তু মনটা শুধু একটা কথাই বলছিল— 'এই মানুষটাকেই সারাজীবন ভালোবাসতে চাই।' 🌷">
+                        <div class="gallery-img-container">
+                            <img src="assets/giving first flower to her.jpeg" alt="Our First Flower" class="gallery-img" loading="lazy">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">🌸 Our First Flower</h3>
+                            <p class="bengali-text gallery-card-desc">প্রথম ফুলটা তোমাকে দেওয়ার সময় আমার হাত কাঁপছিল...</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="gallery-card scroll-fade-up" data-image="assets/Her smile.jpeg" data-title="😊 সেই মিষ্টি হাসি" data-caption="তোমার হাসির মধ্যেই লুকিয়ে আছে আমার শান্তি। যতবার তুমি হাসো, ততবার আমি নতুন করে তোমার প্রেমে পড়ে যাই। 💖">
+                        <div class="gallery-img-container">
+                            <img src="assets/Her smile.jpeg" alt="Your Beautiful Smile" class="gallery-img" loading="lazy">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">😊 সেই মিষ্টি হাসি</h3>
+                            <p class="bengali-text gallery-card-desc">তোমার হাসির মধ্যেই লুকিয়ে আছে আমার শান্তি...</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="gallery-card scroll-fade-up" data-image="assets/momonts.jpeg" data-title="✨ Our Moments" data-caption="ছোট ছোট মুহূর্তগুলোই আমাদের ভালোবাসার সবচেয়ে বড় গল্প। প্রতিটা স্মৃতি আজও আমার হৃদয়ে জীবন্ত। ❤️">
+                        <div class="gallery-img-container">
+                            <img src="assets/momonts.jpeg" alt="Our Moments" class="gallery-img" loading="lazy">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">✨ Our Moments</h3>
+                            <p class="bengali-text gallery-card-desc">ছোট ছোট মুহূর্তগুলোই আমাদের ভালোবাসার সবচেয়ে বড় গল্প...</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="gallery-card scroll-fade-up" data-image="assets/moments more.jpeg" data-title="♾️ Forever Together" data-caption="এই ছবিগুলো শুধু স্মৃতি নয়, এগুলো আমার জীবনের সবচেয়ে মূল্যবান ধন। আমি চাই এমন হাজারো মুহূর্ত তোমার সঙ্গে কাটাতে। 🥹❤️">
+                        <div class="gallery-img-container">
+                            <img src="assets/moments more.jpeg" alt="Forever Together" class="gallery-img" loading="lazy">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">♾️ Forever Together</h3>
+                            <p class="bengali-text gallery-card-desc">এই ছবিগুলো শুধু স্মৃতি নয়, এগুলো আমার জীবনের সবচেয়ে মূল্যবান ধন...</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="gallery-card scroll-fade-up" data-type="video" data-video="assets/WhatsApp Video 2026-07-28 at 22.38.45.mp4" data-title="🎥 Special Moments" data-caption="আমাদের একসাথে কাটানো এই মিষ্টি মুহূর্তটি চিরকাল আমার হৃদয়ে থাকবে। ❤️">
+                        <div class="gallery-img-container">
+                            <video src="assets/WhatsApp Video 2026-07-28 at 22.38.45.mp4" class="gallery-img" muted autoplay loop playsinline></video>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-card-title">🎥 Special Moments</h3>
+                            <p class="bengali-text gallery-card-desc">আমাদের একসাথে কাটানো এই মিষ্টি মুহূর্তটি...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Glowing Quote at the bottom -->
+                <div class="gallery-footer-quote text-center scroll-fade-up">
+                    <p id="gallery-quote-text" class="bengali-text glowing-quote-text"></p>
+                    <div class="gallery-love-subtext-container">
+                        <span id="final-gallery-heart" class="final-heart-icon hidden">❤️</span>
+                        <p id="gallery-love-subtext" class="bengali-text gallery-love-subtext"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Markup -->
+        <div id="lightbox" class="lightbox hidden" aria-hidden="true" role="dialog">
+            <button id="lightbox-close" class="lightbox-close" aria-label="Close lightbox">&times;</button>
+            <div class="lightbox-content">
+                <img id="lightbox-img" src="" alt="">
+                <video id="lightbox-video" controls class="hidden"></video>
+                <div class="lightbox-text">
+                    <h3 id="lightbox-title"></h3>
+                    <p id="lightbox-caption" class="bengali-text"></p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Section 6: Final Surprise -->
+        <section id="section-surprise" class="scroll-section surprise-section">
+            <!-- Fullscreen Overlay covering the background during final transition -->
+            <div id="night-overlay" class="night-overlay"></div>
+            
+            <div class="surprise-content-wrapper text-center">
+                <!-- Moon element (Hidden initially, fades in) -->
+                <div id="glowing-moon" class="glowing-moon hidden"></div>
+                
+                <div id="surprise-text-stage-1" class="surprise-text-block">
+                    <p id="surprise-typewriter-1" class="surprise-text-eng font-serif"></p>
+                    <p id="surprise-typewriter-2" class="surprise-text-bng bengali-text"></p>
+                </div>
+                
+                <div id="surprise-text-stage-2" class="surprise-final-block hidden">
+                    <div class="surprise-final-heart">❤️</div>
+                    <h3 class="surprise-final-heading">I Love You</h3>
+                    <p class="surprise-final-subheading">Happy Birthday My Love</p>
+                    
+                    <button id="forgive-btn" class="forgive-btn">
+                        <span>Will You Forgive Me?</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <!-- Final Thank You Note Modal -->
+                <div id="thank-you-modal" class="thank-you-modal glass hidden">
+                    <div class="modal-heart">❤️</div>
+                    <h2>Thank you for being in my life.</h2>
+                    <p class="bengali-text">আমি কথা দিচ্ছি, আমি সবসময় তোমাকে এভাবেই ভালোবেসে যাবো। আমার সব ভুলের জন্য আবারও দুঃখিত। আজকের দিনটি তোমার জীবনে অনেক আনন্দ নিয়ে আসুক!</p>
+                    <p class="modal-signature">— চিরকাল তোমার হয়ে... ♾️</p>
+                    <button id="modal-close-btn" class="modal-close-btn">Close</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GSAP Core Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- GSAP ScrollTrigger Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Client Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
